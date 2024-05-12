@@ -3,20 +3,21 @@
 1-Leap 
 import React, { useState } from 'react';
 
-// Función de utilidad
-function isDivisibleBy(number, divisor) {
+const isDivisibleBy = (number: number, divisor: number): boolean => {
   return number % divisor === 0;
 }
 
-// Función para verificar si un año es bisiesto
-function isLeap(year) {
+const isLeap = (year: number): boolean => {
   return isDivisibleBy(year, 400) || (!isDivisibleBy(year, 100) && isDivisibleBy(year, 4));
 }
 
-// Componente de React
-function LeapYearChecker() {
-  const [year, setYear] = useState(0);
-  const [isLeapYear, setIsLeapYear] = useState(false);
+const LeapYearCalculator: React.FC = () => {
+  const [year, setYear] = useState<number>(0);
+  const [isLeapYear, setIsLeapYear] = useState<boolean | null>(null);
+
+  const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setYear(Number(e.target.value));
+  };
 
   const checkLeapYear = () => {
     setIsLeapYear(isLeap(year));
@@ -24,13 +25,20 @@ function LeapYearChecker() {
 
   return (
     <div>
-      <input type="number" value={year} onChange={e => setYear(e.target.value)} />
-      <button onClick={checkLeapYear}>Check if Leap Year</button>
-      {isLeapYear ? <p>{year} is a leap year.</p> : <p>{year} is not a leap year.</p>}
+      <h1>Leap Year Calculator</h1>
+      <label>
+        Year:
+        <input type="number" value={year} onChange={handleYearChange} />
+      </label>
+      <button onClick={checkLeapYear}>Check Leap Year</button>
+      {isLeapYear !== null && (
+        <p>The year {year} is {isLeapYear ? '' : 'not '}a leap year.</p>
+      )}
     </div>
   );
-}
-export default LeapYearChecker;
+};
+
+export default LeapYearCalculator;
 
 
 Explicacion que hace cada linea 
@@ -84,45 +92,55 @@ Finalmente, el componente LeapYearChecker se exporta como el export por defecto 
 
 import React, { useState } from 'react';
 
-// Función para transcribir ADN a ARN
-function toRna(strand) {
-    let transcribed = '';
-    const mapper = new Map([
-        ["G", "C"],
-        ["C", "G"],
-        ["T", "A"],
-        ["A", "U"],
-    ]);
-    for (var i = 0; i < strand.length; i++) {
-        if (!mapper.has(strand.charAt(i))) throw new Error('Invalid input DNA.');
-        transcribed = transcribed + mapper.get(strand.charAt(i));
+const toRna = (strand: string): string => {
+  let transcribed: string = '';
+  const mapper = new Map<string, string>([
+      ["G", "C"],
+      ["C", "G"],
+      ["T", "A"],
+      ["A", "U"],
+  ]);
+  for (var i = 0; i < strand.length; i++) {
+      if (!mapper.has(strand.charAt(i))) throw new Error('Invalid input DNA.');
+      transcribed = transcribed + mapper.get(strand.charAt(i));
+  }
+  return transcribed;
+}
+
+const DNAToRNATranscriber: React.FC = () => {
+  const [dna, setDna] = useState<string>('');
+  const [rna, setRna] = useState<string>('');
+
+  const handleDnaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDna(e.target.value);
+  };
+
+  const transcribeDnaToRna = () => {
+    try {
+      const transcribedRna = toRna(dna);
+      setRna(transcribedRna);
+    } catch (error) {
+      alert(error.message);
     }
-    return transcribed;
-}
+  };
 
-// Componente de React
-function DnaToRnaTranscriber() {
-    const [dna, setDna] = useState('');
-    const [rna, setRna] = useState('');
+  return (
+    <div>
+      <h1>DNA to RNA Transcriber</h1>
+      <label>
+        DNA Strand:
+        <input type="text" value={dna} onChange={handleDnaChange} />
+      </label>
+      <button onClick={transcribeDnaToRna}>Transcribe</button>
+      {rna && (
+        <p>Transcribed RNA Strand: {rna}</p>
+      )}
+    </div>
+  );
+};
 
-    const transcribeDna = () => {
-        try {
-            setRna(toRna(dna));
-        } catch (error) {
-            alert(error);
-        }
-    };
+export default DNAToRNATranscriber;
 
-    return (
-        <div>
-            <input type="text" value={dna} onChange={e => setDna(e.target.value)} />
-            <button onClick={transcribeDna}>Transcribe DNA</button>
-            <p>RNA: {rna}</p>
-        </div>
-    );
-}
-
-export default DnaToRnaTranscriber;
 
 Explicacion de que hace cada linea 
 
@@ -159,4 +177,4 @@ export default DnaToRnaTranscriber;
 
 Finalmente, el componente DnaToRnaTranscriber se exporta como el export por defecto del módulo. Esto significa que puede ser importado en otros archivos utilizando import DnaToRnaTranscriber from './DnaToRnaTranscriber';.
 
-Link video: https://youtu.be/u3f3lOL0--A?si=N-UkkI_byS_ru_iS
+Link video:
