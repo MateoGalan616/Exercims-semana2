@@ -28,8 +28,12 @@ const DNAToRNATranscriber: React.FC = () => {
       const transcribedRna = toRna(dna);
       setRna(transcribedRna);
     } catch (error) {
+      if (error instanceof Error) {
       alert(error.message);
+    }else {
+
     }
+  }
   };
 
   return (

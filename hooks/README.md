@@ -43,48 +43,15 @@ export default LeapYearCalculator;
 
 Explicacion que hace cada linea 
 
-import React, { useState } from 'react';
-
-Esta línea importa el módulo React y la función useState desde la biblioteca react. useState es un Hook de React que te permite agregar estado a los componentes funcionales.
-
-function isDivisibleBy(number, divisor) {
-  return number % divisor === 0;
-}
-
-Esta es una función de utilidad que verifica si un número es divisible por otro. Devuelve true si el número es divisible por el divisor y false en caso contrario.
-
-function isLeap(year) {
-  return isDivisibleBy(year, 400) || (!isDivisibleBy(year, 100) && isDivisibleBy(year, 4));
-}
-
-Esta función verifica si un año es bisiesto. Un año es bisiesto si es divisible por 400 o si no es divisible por 100 pero sí por 4.
-
-function LeapYearChecker() {
-  const [year, setYear] = useState(0);
-  const [isLeapYear, setIsLeapYear] = useState(false);
-
-Aquí se define un componente de React llamado LeapYearChecker. Dentro de este componente, se declaran dos estados utilizando el Hook useState: year y isLeapYear. year se inicializa con 0 y isLeapYear con false.
-
-  const checkLeapYear = () => {
-    setIsLeapYear(isLeap(year));
-  };
-
-Esta es una función que se llama checkLeapYear. Cuando se invoca, actualiza el estado isLeapYear utilizando la función setIsLeapYear, pasándole el resultado de la función isLeap(year).
-
-  return (
-    <div>
-      <input type="number" value={year} onChange={e => setYear(e.target.value)} />
-      <button onClick={checkLeapYear}>Check if Leap Year</button>
-      {isLeapYear ? <p>{year} is a leap year.</p> : <p>{year} is not a leap year.</p>}
-    </div>
-  );
-}
-
-Este es el código JSX que se renderiza para el componente LeapYearChecker. Contiene un campo de entrada para el año, un botón para verificar si el año es bisiesto y un párrafo que muestra si el año es bisiesto o no.
-
-export default LeapYearChecker;
-
-Finalmente, el componente LeapYearChecker se exporta como el export por defecto del módulo. Esto significa que puede ser importado en otros archivos utilizando import LeapYearChecker from './LeapYearChecker';.
+import React, { useState } from 'react';: Esta línea importa el módulo React y la función useState desde la biblioteca react. useState es un Hook que te permite añadir el estado de React a los componentes de función.
+const isDivisibleBy = (number: number, divisor: number): boolean => {...};: Esta es una función que verifica si un número es divisible por otro número. Devuelve true si el número es divisible y false en caso contrario.
+const isLeap = (year: number): boolean => {...};: Esta es una función que verifica si un año es bisiesto. Un año es bisiesto si es divisible por 400 o si no es divisible por 100 pero es divisible por 4.
+const LeapYearCalculator: React.FC = () => {...};: Aquí se declara el componente LeapYearCalculator. Este es un componente funcional de React.
+const [year, setYear] = useState<number>(0);: Aquí se declara un estado llamado year y su función de actualización setYear. El estado inicial es 0.
+const [isLeapYear, setIsLeapYear] = useState<boolean | null>(null);: Aquí se declara otro estado llamado isLeapYear y su función de actualización setIsLeapYear. El estado inicial es null.
+const handleYearChange = (e: React.ChangeEvent<HTMLInputElement>) => {...};: Esta es una función de manejo de eventos que se activa cuando se introduce un nuevo año. Actualiza el estado year con el nuevo valor.
+const checkLeapYear = () => {...};: Esta es una función que verifica si el año actual es bisiesto y actualiza el estado isLeapYear con el resultado.
+return (...): Esta parte del código devuelve el JSX que se renderizará en la página. Contiene un formulario para introducir un año y un botón para verificar si el año es bisiesto. También muestra si el año es bisiesto o no.
 
 
 
@@ -120,8 +87,12 @@ const DNAToRNATranscriber: React.FC = () => {
       const transcribedRna = toRna(dna);
       setRna(transcribedRna);
     } catch (error) {
+      if (error instanceof Error) {
       alert(error.message);
+    }else {
+
     }
+  }
   };
 
   return (
@@ -142,39 +113,17 @@ const DNAToRNATranscriber: React.FC = () => {
 export default DNAToRNATranscriber;
 
 
+
 Explicacion de que hace cada linea 
 
-Esta función toRna toma una cadena de ADN (representada por las letras G, C, T, A) y la transcribe en ARN. Para hacer esto, utiliza un Map que mapea cada letra de ADN a su correspondiente en ARN. Luego, recorre cada letra de la cadena de entrada y la reemplaza por su correspondiente en ARN. Si encuentra una letra que no es válida (no es G, C, T, A), lanza un error.
+import React, { useState } from 'react';: Esta línea importa el módulo React y la función useState desde la biblioteca react. useState es un Hook que te permite añadir el estado de React a los componentes de función.
+const toRna = (strand: string): string => {...};: Esta es una función que transcribe una cadena de ADN a ARN. Recorre cada carácter de la cadena de entrada y lo reemplaza con su correspondiente en ARN utilizando un mapa. Si encuentra un carácter que no está en el mapa, lanza un error.
+const DNAToRNATranscriber: React.FC = () => {...};: Aquí se declara el componente DNAToRNATranscriber. Este es un componente funcional de React.
+const [dna, setDna] = useState<string>('');: Aquí se declara un estado llamado dna y su función de actualización setDna. El estado inicial es una cadena vacía.
+const [rna, setRna] = useState<string>('');: Aquí se declara otro estado llamado rna y su función de actualización setRna. El estado inicial es una cadena vacía.
+const handleDnaChange = (e: React.ChangeEvent<HTMLInputElement>) => {...};: Esta es una función de manejo de eventos que se activa cuando se introduce una nueva cadena de ADN. Actualiza el estado dna con la nueva cadena.
+const transcribeDnaToRna = () => {...};: Esta es una función que intenta transcribir la cadena de ADN a ARN utilizando la función toRna. Si la función toRna lanza un error, muestra una alerta con el mensaje de error.
+return (...): Esta parte del código devuelve el JSX que se renderizará en la página. Contiene un formulario para introducir una cadena de ADN y un botón para transcribir la cadena a ARN. También muestra la cadena de ARN transcrita.
+export default DNAToRNATranscriber;: Esta línea exporta el componente DNAToRNATranscriber como exportación por defecto del módulo. Esto permite importar DNAToRNATranscriber en otros módulos usando import DNAToRNATranscriber from './DNAToRNATranscriber';.
 
-function DnaToRnaTranscriber() {
-    const [dna, setDna] = useState('');
-    const [rna, setRna] = useState('');
-
-Aquí se define un componente de React llamado DnaToRnaTranscriber. Dentro de este componente, se declaran dos estados utilizando el Hook useState: dna y rna. Ambos se inicializan con una cadena vacía.
-
-    const transcribeDna = () => {
-        try {
-            setRna(toRna(dna));
-        } catch (error) {
-            alert(error);
-        }
-    };
-
-Esta es una función que se llama transcribeDna. Cuando se invoca, intenta transcribir la cadena de ADN en ARN utilizando la función toRna y actualiza el estado rna con el resultado. Si ocurre un error (por ejemplo, si la cadena de ADN es inválida), muestra una alerta con el mensaje de error.
-
-    return (
-        <div>
-            <input type="text" value={dna} onChange={e => setDna(e.target.value)} />
-            <button onClick={transcribeDna}>Transcribe DNA</button>
-            <p>RNA: {rna}</p>
-        </div>
-    );
-}
-
-Este es el código JSX que se renderiza para el componente DnaToRnaTranscriber. Contiene un campo de entrada para la cadena de ADN, un botón para transcribir la cadena de ADN en ARN y un párrafo que muestra la cadena de ARN resultante.
-
-export default DnaToRnaTranscriber;
-
-Finalmente, el componente DnaToRnaTranscriber se exporta como el export por defecto del módulo. Esto significa que puede ser importado en otros archivos utilizando import DnaToRnaTranscriber from './DnaToRnaTranscriber';.
-
-Link video:
+Link video:https://youtu.be/cm1Kr5VZsEE?si=yw90w-6voIAp4ES4
